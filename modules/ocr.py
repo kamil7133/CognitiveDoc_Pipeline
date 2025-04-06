@@ -1,9 +1,9 @@
 import json
 from azure.ai.formrecognizer import FormRecognizerClient, DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
-
-key = AzureKeyCredential("")
-endpoint = ""
+from cognitivedoc_pipeline.variables.azure_auth import key, endpoint
+key = key
+endpoint = endpoint
 
 formUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/sample-layout.pdf"
 
@@ -16,8 +16,5 @@ def ocr_azure(key: str, endpoint: str, formUrl: str) -> str:
     result = poller.result()
     result_dict = result.to_dict()
 
-    json_output = json.dumps(result_dict, indent=2)
+    json_output = json.dumps(result_dict, indent=2, ensure_ascii=False, sort_keys=True)
     return json_output
-
-
-print(ocr_azure(key, endpoint, formUrl))
